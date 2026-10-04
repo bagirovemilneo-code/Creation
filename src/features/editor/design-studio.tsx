@@ -7,6 +7,7 @@ import {
   createDocument, createTextLayer, createImageLayer, updateLayer, moveLayer, parseDocument,
 } from "./model";
 import type { StudioDocument, StudioLayer, TextLayer } from "./types";
+import { ShirtMockup } from "./shirt-mockup";
 
 const garmentColors = [
   { id: "ivory", label: "Krem", value: "#f7f5ee" },
@@ -17,7 +18,7 @@ const fonts = ["Arial", "Georgia", "Verdana"] as const;
 type Tab = "text" | "image" | "layers" | "product";
 type Drag = { id: string; mode: "move" | "resize"; x: number; y: number; scale: number; original: StudioLayer; moved: boolean; document: StudioDocument };
 
-function StudioIcon({ name }: { name: "back" | "image" | "text" | "layers" | "product" | "close" | "fit" }) {
+function StudioIcon({ name }: { name: "back" | "image" | "text" | "layers" | "product" | "close" | "fit" | "undo" | "redo" | "check" | "guide" | "plus" | "minus" }) {
   const paths = {
     back: "M19 12H5m7-7-7 7 7 7",
     image: "M4 14v6h16v-6M12 16V3m-5 5 5-5 5 5",
@@ -26,8 +27,14 @@ function StudioIcon({ name }: { name: "back" | "image" | "text" | "layers" | "pr
     product: "m8 3-6 4 3 6 3-2v10h8V11l3 2 3-6-6-4c-1 3-7 3-8 0Z",
     close: "m6 6 12 12M18 6 6 18",
     fit: "M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5",
+    undo: "M9 5 4 10l5 5M4 10h10a6 6 0 0 1 0 12",
+    redo: "m15 5 5 5-5 5M20 10H10a6 6 0 0 0 0 12",
+    check: "m5 12 4 4L19 6",
+    guide: "M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5M8 8h8v8H8Z",
+    plus: "M12 5v14M5 12h14",
+    minus: "M5 12h14",
   };
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>;
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>;
 }
 
 export function DesignStudio({ productId, productTitle }: { productId?: string; productTitle?: string }) {
@@ -61,6 +68,8 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
   const selected = document.layers.find(layer => layer.id === selectedId);
   const selectedText = selected?.kind === "text" ? selected : undefined;
   const garment = garmentColors.find(color => color.id === document.product.color)!;
+  const displayTitle = document.product.title === "Sənin ilk t-shirt-ün" ? "Klassik T-shirt" : document.product.title;
+  const saved = status === "Bu brauzerdə saxlanıb" || status === "Saxlanmış dizayn açıldı";
 
   useEffect(() => { documentRef.current = document; }, [document]);
   useEffect(() => { viewModeRef.current = viewMode; }, [viewMode]);
@@ -147,7 +156,7 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
       if (!parseDocument(raw)) { setMessage("Dizayn saxlanmadı. Şəkil həcmini və qatları yoxla."); return; }
       localStorage.setItem(STORAGE_KEY, raw);
       setStatus("Bu brauzerdə saxlanıb");
-      setMessage("Dizayn bu brauzerdə saxlandı. Eyni brauzerdə studiyaya qayıdanda açılacaq.");
+      setMessage("Dizayn bu brauzerdə saxlandı.");
     } catch { setMessage("Yaddaş doludur və ya bağlıdır. Şəkillərin sayını azaldıb yenidən yoxla."); }
   }
   async function upload(file?: File) {
@@ -175,7 +184,7 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
       commit(next, true, latest);
       if (viewModeRef.current === "edit") { setSelectedId(layer.id); setTab("image"); }
       else { setSelectedId(null); setTab(null); }
-      setMessage("Şəkil əlavə edildi. Sürüşdürərək yerini dəyiş.");
+      setMessage("Şəkil əlavə edildi.");
     } catch { setMessage("Şəkil əlavə edilmədi. Etibarlı və daha kiçik bir şəkil seç."); }
     finally { setUploading(false); if (fileRef.current) fileRef.current.value = ""; }
   }
@@ -230,30 +239,28 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
       <div className="studio-title">
         <Link className="studio-back" href="/products" aria-label="Məhsullara qayıt"><StudioIcon name="back" /></Link>
         <Link className="studio-brand" href="/" aria-label="Creation ana səhifə">creation<span>✳</span></Link>
-        <div className="studio-title-copy"><h1>{document.product.title}</h1><p>{status}</p></div>
+        <div className="studio-title-copy"><h1>{displayTitle}</h1><span className={"studio-save-state " + (saved ? "is-saved" : "is-dirty")} role="img" aria-label={status} title={status} /></div>
       </div>
       <div className="studio-actions">
-        <button type="button" className="studio-icon-button" onClick={undo} disabled={!history.undo || viewMode === "preview"} aria-label="Geri al" title="Geri al">↶</button>
-        <button type="button" className="studio-icon-button" onClick={redo} disabled={!history.redo || viewMode === "preview"} aria-label="Yenidən et" title="Yenidən et">↷</button>
+        <button type="button" className="studio-icon-button" onClick={undo} disabled={!history.undo || viewMode === "preview"} aria-label="Geri al" title="Geri al"><StudioIcon name="undo" /></button>
+        <button type="button" className="studio-icon-button" onClick={redo} disabled={!history.redo || viewMode === "preview"} aria-label="Yenidən et" title="Yenidən et"><StudioIcon name="redo" /></button>
         <div className="studio-modes" aria-label="Görünüş rejimi">
           <button type="button" className={viewMode === "edit" ? "is-active" : ""} aria-pressed={viewMode === "edit"} onClick={() => setViewMode("edit")}>Redaktə</button>
           <button type="button" className={viewMode === "preview" ? "is-active" : ""} aria-pressed={viewMode === "preview"} onClick={() => { setViewMode("preview"); setTab(null); setSelectedId(null); }}>Önizləmə</button>
         </div>
-        <button type="button" className="studio-save" onClick={save}>Saxla <span aria-hidden="true">↗</span></button>
+        <button type="button" className="studio-save" onClick={save}><StudioIcon name="check" />Saxla</button>
       </div>
     </header>
     <div className="studio-workspace">
       <nav className="studio-rail" aria-label="Dizayn alətləri">
         {([["image", "Yüklə"], ["text", "Mətn"], ["layers", "Qatlar"], ["product", "Məhsul"]] as const).map(([id, label]) =>
           <button type="button" className="studio-rail-button" key={id} aria-label={label} aria-pressed={tab === id} aria-expanded={tab === id} aria-controls={tab === id ? "studio-tool-panel" : undefined} onClick={() => chooseTool(id)}><StudioIcon name={id} /><span>{label}</span></button>)}
-        <div className="studio-rail-bottom"><span aria-hidden="true">✳</span><small>STUDIO</small></div>
       </nav>
       {tab && <aside className="studio-tools" id="studio-tool-panel" aria-label={tab === "text" ? "Mətn alətləri" : tab === "image" ? "Şəkil alətləri" : tab === "layers" ? "Qatlar" : "Məhsul parametrləri"}>
         <div className="studio-panel-header"><h2>{{ text: "Mətn", image: "Şəkil yüklə", layers: "Qatlar", product: "Məhsul" }[tab]}</h2><button type="button" aria-label="Paneli bağla" onClick={event => { event.currentTarget.closest(".studio-workspace")?.querySelector<HTMLButtonElement>('.studio-rail-button[aria-expanded="true"]')?.focus(); setTab(null); }}><StudioIcon name="close" /></button></div>
         <div className="studio-tool-content">
           {tab === "text" && <>
-            <p className="studio-muted">Sənə aid bir söz. Tam sənin imzan.</p>
-            <button type="button" className="studio-add" onClick={() => addText()}>＋ Mətn əlavə et</button>
+            <button type="button" className="studio-add" onClick={() => addText()}><StudioIcon name="plus" />Mətn əlavə et</button>
             {selectedText && <div className="studio-fields">
               <label>Mətn<textarea aria-label="Dizayn mətni" maxLength={240} value={selectedText.text} onChange={event => patchLayer({ text: event.target.value })} rows={3} /></label>
               {textOverflow && <p className="studio-overflow" role="status">Mətnin bir hissəsi çərçivəyə sığmır. Şrifti kiçilt, çərçivəni böyüt və ya mətni qısalt.</p>}
@@ -263,32 +270,28 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
                 <label>Rəng<input aria-label="Mətn rəngi" type="color" value={selectedText.color} onChange={event => patchLayer({ color: event.target.value })} /></label>
               </div>
             </div>}
-            {!selectedText && <div className="studio-templates"><p className="studio-kicker">BİR FİKİRDƏN BAŞLA</p>
+            {!selectedText && <div className="studio-templates"><h3>Hazır mətnlər</h3>
               <button type="button" onClick={() => addText("öz ritmində.", { fontFamily: "Georgia", fontSize: 32 })}><em>öz ritmində.</em><span>＋</span></button>
               <button type="button" onClick={() => addText("BAKU\nSTATE OF MIND", { fontSize: 28 })}><strong>BAKU<br />STATE OF MIND</strong><span>＋</span></button>
             </div>}
           </>}
           {tab === "image" && <>
-            <p className="studio-muted">İllüstrasiya, foto və ya öz loqon.</p>
             <button type="button" className="studio-upload" onClick={() => fileRef.current?.click()} disabled={uploading}><StudioIcon name="image" /><strong>{uploading ? "Şəkil açılır…" : "Şəkil seç"}</strong><small>PNG, JPG, WebP · ən çox 2 MB</small></button>
-            <p className="studio-hint">Şəffaf fonlu PNG dizaynın t-shirt üzərində təbii görünməsinə kömək edir.</p>
           </>}
           {tab === "layers" && <>
-            <p className="studio-muted">Yuxarıdakı qat dizaynın önündə görünür.</p>
             <div className="studio-layer-list">{[...document.layers].reverse().map(layer =>
               <button type="button" key={layer.id} aria-pressed={selectedId === layer.id} onClick={() => setSelectedId(layer.id)}><StudioIcon name={layer.kind === "text" ? "text" : "image"} /><strong>{layer.kind === "text" ? layer.text || "Boş mətn" : "Yüklənmiş şəkil"}</strong></button>)}</div>
             {!document.layers.length && <p className="studio-hint">Mətn və ya şəkil əlavə edəndə qatlar burada görünəcək.</p>}
           </>}
           {tab === "product" && <>
-            <p className="studio-kicker">SƏNİN KƏTANIN</p><h3>{document.product.title}</h3>
+            <h3>{displayTitle}</h3>
             <div className="studio-detail-group"><p>Rəng <span>{garment.label}</span></p><div className="studio-swatches">{garmentColors.map(color => <button type="button" key={color.id} aria-label={color.label + " t-shirt"} aria-pressed={document.product.color === color.id} style={{ background: color.value }} onClick={() => commit({ ...document, product: { ...document.product, color: color.id } })} />)}</div></div>
             <div className="studio-detail-group"><p>Ölçü</p><div className="studio-sizes">{(["S", "M", "L", "XL"] as const).map(size => <button type="button" key={size} aria-pressed={document.product.size === size} onClick={() => commit({ ...document, product: { ...document.product, size } })}>{size}</button>)}</div></div>
-            <p className="studio-hint">Rəng, ölçü və çap sahəsi bu mərhələdə nümunədir. Real məhsul variantları satışdan əvvəl təsdiqlənəcək.</p>
-            <div className="studio-prototype"><strong>İlk eskizini yarat.</strong><p>Dizaynı önizləyə və bu brauzerdə saxlaya bilərsən. Sifariş növbəti mərhələdə açılacaq.</p></div>
-            <button type="button" className="studio-new" onClick={newDesign}>Yeni dizayna başla ↗</button>
+            <p className="studio-hint">Nümunə məhsul və çap sahəsi. Dizayn bu brauzerdə saxlanır.</p>
+            <button type="button" className="studio-new" onClick={newDesign}><StudioIcon name="plus" />Yeni dizayn</button>
           </>}
           {selected && tab !== "product" && <div className="studio-selection">
-            <p className="studio-kicker">QATIN PARAMETRLƏRİ</p>
+            <h3>Yerləşdirmə</h3>
             <div className="studio-field-row"><label>En<input aria-label="Qatın eni" type="number" min={20} max={300} value={Math.round(selected.width)} onChange={event => { const width = Number(event.target.value); if (width >= 20 && width <= 300) { const ratio = width / selected.width; patchLayer({ width, height: selected.height * ratio, ...(selected.kind === "text" ? { fontSize: selected.fontSize * ratio } : {}) }); } }} /></label>
               <label>Dönmə<input aria-label="Qatın dönməsi" type="number" min={-180} max={180} value={Math.round(selected.rotation)} onChange={event => { const rotation = Number(event.target.value); if (rotation >= -180 && rotation <= 180) patchLayer({ rotation }); }} /></label></div>
             <div className="studio-field-row"><label>X<input aria-label="Üfüqi mövqe" type="number" min={0} max={300} value={Math.round(selected.x)} onChange={event => patchLayer({ x: Number(event.target.value) })} /></label><label>Y<input aria-label="Şaquli mövqe" type="number" min={0} max={360} value={Math.round(selected.y)} onChange={event => patchLayer({ y: Number(event.target.value) })} /></label></div>
@@ -299,18 +302,11 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
       </aside>}
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" className="studio-hidden-input" tabIndex={-1} disabled={viewMode === "preview" || uploading} aria-label="Şəkil faylı" onChange={event => void upload(event.target.files?.[0])} />
       <div className="studio-preview">
-        <div className="studio-preview-heading"><span><i />{viewMode === "edit" ? "DİZAYN SAHƏSİ" : "ÖNİZLƏMƏ"}</span><small>Ön tərəf / 2D</small></div>
-        {viewMode === "edit" && <div className="studio-view-controls"><button type="button" onClick={() => setShowGuides(!showGuides)} aria-pressed={showGuides}>{showGuides ? "Çərçivəni gizlət" : "Çərçivəni göstər"}</button></div>}
+        {viewMode === "edit" && <div className="studio-view-controls"><button type="button" title={showGuides ? "Çap sahəsini gizlət" : "Çap sahəsini göstər"} onClick={() => setShowGuides(!showGuides)} aria-pressed={showGuides}><StudioIcon name="guide" />Çap sahəsi</button></div>}
         <div ref={stageRef} className="studio-stage" onPointerDown={event => { if (!(event.target as Element).closest(".studio-canvas-layer")) setSelectedId(null); }}>
           <div className="studio-garment" style={{ width: fitWidth * zoom, height: fitWidth * zoom * 580 / 520, "--shirt-color": garment.value } as CSSProperties}>
-            <svg className="studio-shirt" viewBox="0 0 520 580" aria-hidden="true">
-              <defs><filter id="shirt-shadow"><feDropShadow dx="0" dy="12" stdDeviation="12" floodOpacity=".08" /></filter></defs>
-              <path d="M174 71 95 110 37 208 123 251 151 206 141 510Q260 539 379 510L369 206 397 251 483 208 425 110 346 71Q260 112 174 71Z" fill={garment.value} stroke={document.product.color === "ink" ? "#444e46" : "#d2d0c5"} strokeWidth="1.5" filter="url(#shirt-shadow)" />
-              <path d="M195 81Q260 159 325 81" fill="none" stroke={document.product.color === "ink" ? "#444e46" : "#d2d0c5"} strokeWidth="4" />
-              <path d="M144 497Q260 524 376 497M53 205 126 242M394 242 467 205" fill="none" stroke={document.product.color === "ink" ? "#444e46" : "#dedcd2"} />
-            </svg>
+            <ShirtMockup color={garment.value} dark={document.product.color === "ink"} />
             <div ref={areaRef} className={"studio-print-area" + (showGuides && viewMode === "edit" ? " with-guides" : "")} onPointerDown={event => { if (event.target === event.currentTarget) setSelectedId(null); }}>
-              {showGuides && viewMode === "edit" && <span className="studio-area-label">ÇAP SAHƏSİ / PROTOTİP</span>}
               <div className="studio-layer-space" style={{ width: AREA_WIDTH, height: AREA_HEIGHT, transform: "scale(" + scale + ")" }} onPointerMove={drag} onPointerUp={finishDrag} onPointerCancel={() => { dragRef.current = null; }} onPointerDown={event => { if (event.target === event.currentTarget) setSelectedId(null); }}>
                 {document.layers.map(layer => <div key={layer.id} role="button" tabIndex={viewMode === "edit" ? 0 : -1} aria-disabled={viewMode === "preview"} aria-label={layer.kind === "text" ? "Mətn: " + layer.text : "Şəkil qatı"} aria-pressed={layer.id === selectedId} className={"studio-canvas-layer" + (layer.id === selectedId && viewMode === "edit" ? " selected" : "")}
                   style={{ left: layer.x, top: layer.y, width: layer.width, height: layer.height, transform: "rotate(" + layer.rotation + "deg)" }}
@@ -335,10 +331,10 @@ export function DesignStudio({ productId, productTitle }: { productId?: string; 
       </div>
     </div>
     <footer className="studio-bottom">
-      <div className="studio-zoom"><button type="button" aria-label="Görünüşü kiçilt" disabled={zoom <= 0.25} onClick={() => setZoom(Math.max(0.25, +(zoom - 0.25).toFixed(2)))}>−</button><span>{Math.round(zoom * 100)}%</span><button type="button" aria-label="Görünüşü böyüt" disabled={zoom >= 1.5} onClick={() => setZoom(Math.min(1.5, +(zoom + 0.25).toFixed(2)))}>＋</button><button type="button" className="studio-fit" aria-label="Ekrana sığdır" title="Ekrana sığdır" onClick={() => setZoom(1)}><StudioIcon name="fit" /></button></div>
+      <div className="studio-zoom"><button type="button" aria-label="Görünüşü kiçilt" disabled={zoom <= 0.25} onClick={() => setZoom(Math.max(0.25, +(zoom - 0.25).toFixed(2)))}><StudioIcon name="minus" /></button><span>{Math.round(zoom * 100)}%</span><button type="button" aria-label="Görünüşü böyüt" disabled={zoom >= 1.5} onClick={() => setZoom(Math.min(1.5, +(zoom + 0.25).toFixed(2)))}><StudioIcon name="plus" /></button><button type="button" className="studio-fit" aria-label="Ekrana sığdır" title="Ekrana sığdır" onClick={() => setZoom(1)}><StudioIcon name="fit" /></button></div>
       <span className="studio-side-chip">Ön tərəf</span>
-      <p className="studio-message" role="status" aria-live="polite">{message || (viewMode === "preview" ? "Dizaynın təmiz önizləməsi." : "Qatı seç, sürüşdür və öz imzanı yarat.")}</p>
-      <button type="button" className="studio-summary" onClick={() => chooseTool("product")} aria-label="Məhsul parametrlərini aç"><i style={{ background: garment.value }} />{garment.label} · {document.product.size}<span>{document.layers.length} qat</span></button>
+      <p className="studio-message" role="status" aria-live="polite">{message}</p>
+      <button type="button" className="studio-summary" onClick={() => chooseTool("product")} aria-label="Məhsul parametrlərini aç"><i style={{ background: garment.value }} />{garment.label} · {document.product.size}<StudioIcon name="product" /></button>
     </footer>
     {message && <div className="studio-toast" aria-hidden="true">{message}</div>}
   </section>;

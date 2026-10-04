@@ -73,7 +73,7 @@ export function createTextLayer(text = "Öz izini qoy."): TextLayer {
     text: text.slice(0, MAX_TEXT_LENGTH),
     fontFamily: "Arial",
     fontSize: 40,
-    color: "#233a2a",
+    color: "#202832",
   };
 }
 

@@ -19,7 +19,9 @@ Sonrakı imkanlar: hoodie, creator marketplace, Printify ilə xarici fulfillment
 
 ## Dizayn mərhələsi
 İlk axın: ana səhifə → məhsul seçimi → dizayn studiyası.
-Vizual istiqamət: açıq krem, tünd yaşıl, lime aksent, böyük tipoqrafiya.
+Ana səhifə və kataloq: açıq krem, tünd yaşıl, lime aksent, böyük tipoqrafiya.
+Studiya: soyuq boz iş sahəsi, qrafit alət zolağı, ağ idarəetmə panelləri, aydın tipoqrafiya və dolğun düymələr. Dekorativ alt qeydlər çıxarılıb; məhsulun nümunə statusu parametr panelində göstərilir.
+T-shirt önizləməsində rəngə uyğun işıq, yumşaq kölgə, yaxa və tikiş detalları var; bunlar vizual effektlərdir, çap ölçülərini və dizayn məlumatını dəyişmir.
 Ana səhifə və kataloq sayt naviqasiyasını saxlayır. /editor birbaşa studiya iş sahəsi kimi açılır; onun idarəetmə paneli saytın başlıq və altlığını əvəz edir.
 İşlək prototip üzərində istifadəçi axını və editor davranışı yoxlanır.
 Tələblər: docs/EDITOR_V1.md.

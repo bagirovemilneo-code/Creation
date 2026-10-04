@@ -6,6 +6,8 @@ Ana səhifədən məhsullara keç → t-shirt üçün studiyanı aç → dizayn�
 ## Hazır prototip
 - Pəncərəni dolduran studiya: alət zolağı, açılıb-bağlanan parametr paneli və sərbəst mərkəzi önizləmə sahəsi.
 - Geniş ekranda iş sahəsi ekrana sığır; parametr panelinin məzmunu öz daxilində sürüşür.
+- Soyuq boz və qrafit interfeys, oxunaqlı alət adları və dolğun düymələr. Dekorativ xırda qeydlər iş sahəsindən çıxarılıb.
+- Rəngə uyğun işıq, kölgə, yaxa və tikiş detalları olan vektor t-shirt önizləməsi; məhsulun real fotosu deyil.
 - Redaktə və təmiz önizləmə rejimləri; sessiya daxilində məhsulun zoom səviyyəsini dəyişmək.
 - 300×360 məntiqi piksel sahəsi və ön t-shirt önizləməsi.
 - Mətn əlavə etmək, font/ölçü/rəng seçmək, hazır mətn ideyalarından başlamaq.
