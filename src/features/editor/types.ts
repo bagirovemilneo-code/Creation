@@ -1,14 +1,43 @@
-// Dimensions must come from the selected printer's validated specification.
-export type DesignLayer =
-  | { id: string; kind: "text"; x: number; y: number; width: number; height: number; rotation: number; text: string; fontFamily: string; fontSize: number; color: string }
-  | { id: string; kind: "image"; x: number; y: number; width: number; height: number; rotation: number; assetId: string };
+export type StudioColor = "ivory" | "ink" | "sage";
+export type StudioSize = "S" | "M" | "L" | "XL";
+export type StudioFont = "Arial" | "Georgia" | "Verdana";
 
-export type DesignDocument = {
-  schemaVersion: 1;
+type LayerTransform = {
   id: string;
-  productVariantId: string;
-  printArea: { widthMm: number; heightMm: number };
-  coordinateUnit: "mm";
-  layers: DesignLayer[];
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
 };
 
+export type TextLayer = LayerTransform & {
+  kind: "text";
+  text: string;
+  fontFamily: StudioFont;
+  fontSize: number;
+  color: string;
+};
+
+export type ImageLayer = LayerTransform & {
+  kind: "image";
+  dataUrl: string;
+  naturalWidth: number;
+  naturalHeight: number;
+};
+
+export type StudioLayer = TextLayer | ImageLayer;
+
+// Logical preview pixels only. These dimensions are not a printer specification.
+export type StudioDocument = {
+  schemaVersion: 1;
+  id: string;
+  product: {
+    id: string;
+    title: string;
+    color: StudioColor;
+    size: StudioSize;
+  };
+  area: { width: 300; height: 360 };
+  layers: StudioLayer[];
+};

@@ -19,10 +19,10 @@ Node.js 24 LTS və npm istifadə olunur. Hazırkı kompüterdə asılılıqlar q
 src/app/                 Səhifələr və əsas layout
 src/components/          Paylaşılan görünüş komponentləri
 src/features/catalog/    Demo və Shopify kataloqu
-src/features/editor/     İlkin design document tipi
+src/features/editor/     Editor görünüşü, document model və lokal saxlama
 src/lib/shopify/          Server client, config, GraphQL sorğuları
 docs/PROJECT_PLAN.md      Qərarlar, sərhədlər və yol xəritəsi
-tests/                   Konfiqurasiya yoxlamaları
+tests/                   Shopify config və editor document yoxlamaları
 ```
 
 ## Shopify hazırlığı
@@ -48,7 +48,11 @@ npm run build
 ```
 
 ## Sərhədlər
-Editor placeholder-dır. AI, hesablar, design storage, cart/checkout, payment və printer inteqrasiyası yoxdur.
+Editor işlək lokal prototipdir. Mətn/şəkil, drag/resize, rəng/font, qatlar, undo/redo və brauzerdə saxlama var.
+PNG/JPG/WebP faylları ən çox 2 MB, sənəd 6 MB və 40 qat ilə məhdudlaşır.
+Ölçülər məntiqi önizləmə pikselidir; print-ready export, fiziki ölçü və DPI yoxlaması hələ yoxdur.
+Dizayn bu brauzerdə saxlanır; başqa cihazda əlçatan deyil. Yeni saxlama əvvəlki bir lokal dizaynı əvəz edir.
+AI, hesablar, serverdə design storage, cart/checkout, payment və printer inteqrasiyası yoxdur.
 Real Shopify bağlantısı credentials olmadan yoxlanmayıb.
 Lokal Git repo; GitHub remote və deployment yaradılmayıb.
 
@@ -58,6 +62,8 @@ Rəsmi istinadlar:
 
 
 ## Son yoxlama — 2026-10-04
-Lint, TypeScript, 4 config testi və production build uğurludur. /, /products, /editor HTTP 200 qaytarır.
+Lint, TypeScript, 15 test və production build uğurludur.
+Brauzerdə mətn/font/dönmə, şəkil yükləmə, drag/resize, silmə/undo və save/reload axını yoxlanıb.
+Mobil və geniş ekran görünüşləri yoxlanıb.
 Npm audit: lint alətlərinin braces asılılıq zəncirində 5 high xəbərdarlığı var; avtomatik downgrade tətbiq edilməyib.
 

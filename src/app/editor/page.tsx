@@ -1,9 +1,14 @@
-import Link from "next/link";
-export default function Editor() {
-  return <section className="page"><p className="eyebrow">YARADICILIQ STUDİYASI</p><h1>İdeyan üçün yer ayırdıq.</h1>
-    <p className="intro">Editor növbəti mərhələdə qurulacaq. Mətn, şəkil, qatlar və çap sahəsi üzərində işləmək mümkün olacaq.</p>
-    <p className="note">Bu səhifə ilkin strukturdur. Hazırda dizayn yaratmaq, AI təsviri generasiya etmək və sifariş vermək mümkün deyil.</p>
-    <Link className="button" href="/products">Məhsullara qayıt</Link>
-  </section>;
-}
+import type { Metadata } from "next";
+import { DesignStudio } from "@/features/editor/design-studio";
+import "./studio.css";
 
+export const metadata: Metadata = { title: "Dizayn studiyası — Creation" };
+
+export default async function EditorPage({ searchParams }: {
+  searchParams: Promise<{ product?: string; title?: string }>;
+}) {
+  const params = await searchParams;
+  const productId = typeof params.product === "string" ? params.product.slice(0, 120) : undefined;
+  const productTitle = typeof params.title === "string" ? params.title.slice(0, 120) : undefined;
+  return <DesignStudio key={productId || "default"} productId={productId} productTitle={productTitle} />;
+}
