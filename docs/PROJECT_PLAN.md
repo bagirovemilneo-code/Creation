@@ -14,10 +14,13 @@ Sonrakı imkanlar: hoodie, creator marketplace, Printify ilə xarici fulfillment
 - Dizayn JSON-u bu brauzerdə manual saxlanır, uyğun məhsula qayıdanda yenidən açılır.
 - Məhsul rəng/ölçü seçimi demo üçündür; Shopify variant ID-ləri hələ bağlanmayıb.
 - Editor 300×360 məntiqi önizləmə pikselindən istifadə edir; real çap ölçüsü və DPI deyil.
+- Studiyanın iş sahəsi bütün pəncərəni tutur: ayrıca alət zolağı, açılıb-bağlanan parametr paneli və mərkəzdə məhsul.
+- Studiyada redaktə/önizləmə rejimi və sessiya daxilində zoom var; geniş ekranda səhifə sürüşmür, uzun alət panelləri öz daxilində sürüşür.
 
 ## Dizayn mərhələsi
 İlk axın: ana səhifə → məhsul seçimi → dizayn studiyası.
 Vizual istiqamət: açıq krem, tünd yaşıl, lime aksent, böyük tipoqrafiya.
+Ana səhifə və kataloq sayt naviqasiyasını saxlayır. /editor birbaşa studiya iş sahəsi kimi açılır; onun idarəetmə paneli saytın başlıq və altlığını əvəz edir.
 İşlək prototip üzərində istifadəçi axını və editor davranışı yoxlanır.
 Tələblər: docs/EDITOR_V1.md.
 

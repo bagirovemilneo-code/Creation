@@ -25,6 +25,12 @@ docs/PROJECT_PLAN.md      Qərarlar, sərhədlər və yol xəritəsi
 tests/                   Shopify config və editor document yoxlamaları
 ```
 
+## Dizayn studiyası
+/editor bütün pəncərəni dolduran iş sahəsidir. Alətlər sol zolaqdadır; parametr paneli açılıb-bağlanır, t-shirt mərkəzdə görünür. Geniş ekranda səhifə sürüşmür; uzun alət panelləri öz daxilində sürüşür.
+Redaktə/önizləmə keçidi və sessiya daxilində zoom var. Zoom dizaynın saxlanmış ölçülərini dəyişmir.
+Ana səhifə və məhsul kataloqu öz sayt başlığı və altlığı ilə açılır.
+Mövcud mətn/şəkil, drag/resize, qatlar, undo/redo, məhsul rəng/ölçü və lokal saxlama funksiyaları saxlanılır.
+
 ## Shopify hazırlığı
 Boş .env.local ilə demo kataloq işləyir. Canlı qoşulma üçün sonra:
 1. Shopify admin-də Headless kanalı və storefront yarat.
