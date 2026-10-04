@@ -120,7 +120,7 @@ export function createDocument(): StudioDocument {
   return {
     schemaVersion: 1,
     id: crypto.randomUUID(),
-    product: { id: "demo-tshirt", title: "Sənin ilk t-shirt-ün", color: "ivory", size: "M" },
+    product: { id: "demo-tshirt", title: "Klassik T-shirt", color: "ivory", size: "M" },
     area: { width: AREA_WIDTH, height: AREA_HEIGHT },
     layers: [createTextLayer()],
   };
