@@ -4,16 +4,20 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Creation — ideyanı geyin",
-  description: "Öz ideyanı t-shirt dizaynına çevir. Mətn, şəkil və sənin yaradıcılığın üçün şəxsi dizayn studiyası.",
+  description:
+    "Öz ideyanı t-shirt dizaynına çevir. Mətn, şəkil və sənin yaradıcılığın üçün şəxsi dizayn studiyası.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="az">
+    <html lang="az" data-scroll-behavior="smooth">
       <body>
         <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );
 }
-
