@@ -45,70 +45,128 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="creation-home">
-      {/* HERO */}
-      <section className="creation-hero">
-        <div className="creation-hero-copy">
-          <p className="creation-kicker">CREATION STUDIO</p>
+    <div className="creation-home creation-home-v2">
 
-          <h1>
+      {/* =====================================================
+          CAMPAIGN HERO
+         ===================================================== */}
+
+      <section
+        className="campaign-hero"
+        aria-labelledby="campaign-hero-title"
+      >
+        <div className="campaign-hero-media">
+          <Image
+            src="/images/creation-campaign-hero.webp"
+            alt="Creation dizaynı ilə çap olunmuş premium t-shirt geyinən model"
+            fill
+            priority
+            sizes="100vw"
+            className="campaign-hero-image"
+          />
+
+          <div
+            className="campaign-hero-shade"
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="campaign-hero-content">
+          <p className="campaign-hero-kicker">
+            CREATION / DESIGN YOURS
+          </p>
+
+          <h1 id="campaign-hero-title">
             İdeyanı
             <br />
             geyin.
           </h1>
 
-          <p className="creation-hero-text">
+          <p className="campaign-hero-description">
             Sənin fikrin.
             <br />
             Sənin dizaynın.
             <br />
-            Sənin məhsulun.
+            Real məhsulun.
           </p>
 
-          <div className="creation-hero-actions">
+          <div className="campaign-hero-actions">
             <Link
-              className="creation-primary-button"
+              className="campaign-primary-button"
               href="/editor?product=classic-tshirt"
             >
-              Dizayn etməyə başla
-              <span aria-hidden="true">↗</span>
+              <span>Dizayn etməyə başla</span>
+              <span
+                className="campaign-button-arrow"
+                aria-hidden="true"
+              >
+                ↗
+              </span>
             </Link>
 
-            <Link className="creation-link" href="#how-it-works">
-              Necə işləyir
-              <span aria-hidden="true">↓</span>
+            <Link
+              className="campaign-secondary-link"
+              href="/products"
+            >
+              Məhsulları kəşf et
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
 
-        <div className="creation-hero-media">
-          <Image
-            src="/images/creation-hero-v1.webp"
-            alt="Creation t-shirt dizayn nümunəsi"
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 58vw"
-            className="creation-hero-image"
-          />
+        <div className="campaign-hero-meta">
+          <span>CREATION 001</span>
 
-          <div className="creation-hero-caption">
-            <span>Creation / 001</span>
-            <span>Öz dizaynını yarat</span>
-          </div>
+          <span>
+            IDEYA
+            <i aria-hidden="true">/</i>
+            DİZAYN
+            <i aria-hidden="true">/</i>
+            MƏHSUL
+          </span>
         </div>
+
+        <a
+          className="campaign-scroll"
+          href="#creation-intro"
+          aria-label="Aşağı keç"
+        >
+          <span>AŞAĞI</span>
+          <span aria-hidden="true">↓</span>
+        </a>
       </section>
 
-      {/* STATEMENT */}
-      <section className="creation-statement">
-        <p>Hazır dizayn seçmə.</p>
-        <p>Özünü yarat.</p>
+
+      {/* =====================================================
+          INTRO / MANIFESTO
+         ===================================================== */}
+
+      <section
+        className="creation-intro-strip"
+        id="creation-intro"
+      >
+        <p>
+          Hazır olanı seçmək əvəzinə
+          <span> özünü yarat.</span>
+        </p>
+
+        <Link href="/editor?product=classic-tshirt">
+          Studiyanı aç
+          <span aria-hidden="true">↗</span>
+        </Link>
       </section>
 
-      {/* EDITORIAL LOOKS */}
+
+      {/* =====================================================
+          EDITORIAL
+         ===================================================== */}
+
       <section className="creation-editorial">
         <div className="creation-section-head">
           <div>
-            <p className="creation-kicker">SƏNİN BAŞLANĞICIN</p>
+            <p className="creation-kicker">
+              SƏNİN BAŞLANĞICIN
+            </p>
 
             <h2>
               Bir fikir kifayətdir.
@@ -118,14 +176,18 @@ export default function Home() {
           </div>
 
           <p className="creation-section-copy">
-            Bir söz, şəkil və ya sadəcə bir hiss. Creation onu geyinə
-            biləcəyin məhsula çevirmək üçün sənə boş bir səth verir.
+            Bir söz, şəkil və ya sadəcə bir hiss.
+            Creation onu geyinə biləcəyin real məhsula
+            çevirmək üçün sənə boş bir səth verir.
           </p>
         </div>
 
         <div className="creation-look-grid">
           {editorialLooks.map((item, index) => (
-            <article className="creation-look" key={item.title}>
+            <article
+              className="creation-look"
+              key={item.title}
+            >
               <Link
                 href="/editor?product=classic-tshirt"
                 className="creation-look-media"
@@ -137,7 +199,9 @@ export default function Home() {
                   fill
                   sizes="(max-width: 700px) 100vw, 33vw"
                   className="creation-look-image"
-                  style={{ objectPosition: item.position }}
+                  style={{
+                    objectPosition: item.position,
+                  }}
                 />
 
                 <span className="creation-look-index">
@@ -164,14 +228,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROCESS */}
+
+      {/* =====================================================
+          PROCESS
+         ===================================================== */}
+
       <section
         className="creation-process"
         id="how-it-works"
         aria-labelledby="process-title"
       >
         <div className="creation-process-heading">
-          <p className="creation-kicker">NECƏ İŞLƏYİR</p>
+          <p className="creation-kicker">
+            NECƏ İŞLƏYİR
+          </p>
 
           <h2 id="process-title">
             Fikirdən
@@ -182,8 +252,13 @@ export default function Home() {
 
         <div className="creation-steps">
           {steps.map((step) => (
-            <article className="creation-step" key={step.number}>
-              <span className="creation-step-number">{step.number}</span>
+            <article
+              className="creation-step"
+              key={step.number}
+            >
+              <span className="creation-step-number">
+                {step.number}
+              </span>
 
               <div>
                 <h3>{step.title}</h3>
@@ -194,7 +269,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURE */}
+
+      {/* =====================================================
+          FEATURE
+         ===================================================== */}
+
       <section className="creation-feature">
         <div className="creation-feature-media">
           <Image
@@ -218,8 +297,9 @@ export default function Home() {
           </h2>
 
           <p>
-            Məqsədimiz sadəcə bir şəkil yaratmaq deyil. Sənin ideyanı real,
-            toxuna biləcəyin və geyinə biləcəyin məhsula çevirməkdir.
+            Məqsədimiz sadəcə bir şəkil yaratmaq deyil.
+            Sənin ideyanı real, toxuna biləcəyin və
+            geyinə biləcəyin məhsula çevirməkdir.
           </p>
 
           <Link
@@ -232,9 +312,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
+
+      {/* =====================================================
+          FINAL CTA
+         ===================================================== */}
+
       <section className="creation-final">
-        <p className="creation-kicker">CREATION</p>
+        <p className="creation-kicker">
+          CREATION
+        </p>
 
         <div className="creation-final-inner">
           <h2>
