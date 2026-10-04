@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { UiIcon } from "@/components/ui-icon";
 
 const editorialLooks = [
   {
@@ -58,24 +59,15 @@ export default function Home() {
         <div className="campaign-hero-media">
           <Image
             src="/images/creation-campaign-hero.webp"
-            alt="Creation dizaynı ilə çap olunmuş premium t-shirt geyinən model"
+            alt="Creation t-shirt-ü ilə kampaniya görünüşü"
             fill
             priority
-            sizes="100vw"
+            sizes="(max-width: 760px) 100vw, 56vw"
             className="campaign-hero-image"
-          />
-
-          <div
-            className="campaign-hero-shade"
-            aria-hidden="true"
           />
         </div>
 
         <div className="campaign-hero-content">
-          <p className="campaign-hero-kicker">
-            CREATION / DESIGN YOURS
-          </p>
-
           <h1 id="campaign-hero-title">
             İdeyanı
             <br />
@@ -83,11 +75,10 @@ export default function Home() {
           </h1>
 
           <p className="campaign-hero-description">
-            Sənin fikrin.
+            Bir fikir, bir söz, bir şəkil.
             <br />
-            Sənin dizaynın.
-            <br />
-            Real məhsulun.
+            <span className="campaign-product-name">T-shirt-ünü</span>{" "}
+            öz dizaynınla yarat.
           </p>
 
           <div className="campaign-hero-actions">
@@ -95,45 +86,20 @@ export default function Home() {
               className="campaign-primary-button"
               href="/editor?product=classic-tshirt"
             >
-              <span>Dizayn etməyə başla</span>
-              <span
-                className="campaign-button-arrow"
-                aria-hidden="true"
-              >
-                ↗
-              </span>
+              <span>Dizaynını yarat</span>
+              <UiIcon name="arrow" />
             </Link>
 
             <Link
               className="campaign-secondary-link"
               href="/products"
             >
-              Məhsulları kəşf et
-              <span aria-hidden="true">→</span>
+              Məhsullara bax
+              <UiIcon name="arrow" />
             </Link>
           </div>
         </div>
 
-        <div className="campaign-hero-meta">
-          <span>CREATION 001</span>
-
-          <span>
-            IDEYA
-            <i aria-hidden="true">/</i>
-            DİZAYN
-            <i aria-hidden="true">/</i>
-            MƏHSUL
-          </span>
-        </div>
-
-        <a
-          className="campaign-scroll"
-          href="#creation-intro"
-          aria-label="Aşağı keç"
-        >
-          <span>AŞAĞI</span>
-          <span aria-hidden="true">↓</span>
-        </a>
       </section>
 
 

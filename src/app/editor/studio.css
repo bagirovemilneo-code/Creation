@@ -1,8 +1,8 @@
 .studio {
-  --studio-ink: #20242b;
-  --studio-muted: #68717f;
-  --studio-line: #e2e6ec;
-  --studio-accent: #5677a6;
+  --studio-ink: var(--ink);
+  --studio-muted: var(--muted);
+  --studio-line: var(--line-soft);
+  --studio-accent: var(--accent);
   position: relative;
   height: 100dvh;
   min-height: 0;
@@ -10,16 +10,16 @@
   display: grid;
   grid-template-rows: 72px minmax(0, 1fr) 56px;
   overflow: hidden;
-  background: #edf0f4;
+  background: var(--canvas);
   color: var(--studio-ink);
   font-size: 14px;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 .studio :where(button, input, select, textarea) { font: inherit; }
 .studio button { cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease; }
 .studio button:disabled { cursor: default; opacity: .32; }
-.studio button:focus-visible, .studio a:focus-visible, .studio input:focus-visible, .studio textarea:focus-visible, .studio select:focus-visible, .studio-canvas-layer:focus-visible { outline: 2px solid #6486b7; outline-offset: 3px; }
+.studio button:focus-visible, .studio a:focus-visible, .studio input:focus-visible, .studio textarea:focus-visible, .studio select:focus-visible, .studio-canvas-layer:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .studio svg { flex-shrink: 0; }
 .studio-topbar { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-width: 0; padding: 0 24px 0 20px; background: #fff; border-bottom: 1px solid var(--studio-line); z-index: 20; box-shadow: 0 1px 3px #17202d03; }
 .studio-title { display: flex; gap: 22px; align-items: center; min-width: 0; }
@@ -41,9 +41,9 @@
 .studio-modes button { background: transparent; color: #737c89; border: 1px solid transparent; border-radius: 6px; min-width: 98px; height: 36px; padding: 0 16px; font-size: 14px; font-weight: 600; }
 .studio-modes button:hover { color: #313a47; background: #e8ecf2; }
 .studio-modes button.is-active { background: #fff; color: #282e37; border-color: #dce1e8; box-shadow: 0 1px 3px #1923300c, 0 1px 1px #19233005; }
-.studio-save { background: linear-gradient(180deg, #353b46, #282e37); color: #fff; border: 1px solid #262c35; border-radius: 8px; height: 42px; padding: 0 19px; font-size: 14px !important; font-weight: 600 !important; display: flex; gap: 14px; align-items: center; white-space: nowrap; box-shadow: 0 1px 2px #151c2a26, inset 0 1px 0 #ffffff18; }
-.studio-save:hover { background: linear-gradient(180deg, #454e5b, #333c48); box-shadow: 0 3px 6px #151c2a1a, inset 0 1px 0 #ffffff18; }
-.studio-save:active { background: #252c36; box-shadow: inset 0 1px 2px #0c132329; transform: translateY(1px); }
+.studio-save { background: var(--action-bg); color: #fff; border: 1px solid #262c35; border-radius: 8px; height: 42px; padding: 0 19px; font-size: 14px !important; font-weight: 600 !important; display: flex; gap: 14px; align-items: center; white-space: nowrap; box-shadow: 0 1px 2px #151c2a26, inset 0 1px 0 #ffffff18; }
+.studio-save:hover { background: var(--action-hover); box-shadow: 0 3px 6px #151c2a1a, inset 0 1px 0 #ffffff18; }
+.studio-save:active { background: var(--action-pressed); box-shadow: inset 0 1px 2px #0c132329; transform: translateY(1px); }
 .studio-save svg { width: 17px; height: 17px; }
 
 .studio-workspace { display: flex; min-height: 0; min-width: 0; overflow: hidden; position: relative; }
@@ -65,7 +65,7 @@
 .studio-templates h3, .studio-selection h3 { font-size: 13px; line-height: 1.5; margin-bottom: 18px; letter-spacing: -.1px; color: #4d5766; }
 .studio-muted { font-size: 13px; line-height: 1.65; color: var(--studio-muted); margin: 0 0 22px; }
 .studio-kicker { font-size: 13px; letter-spacing: -.1px; font-weight: 600; color: #48515e; margin: 0 0 16px; text-transform: none; }
-.studio-add { display: flex; justify-content: center; align-items: center; gap: 9px; background: linear-gradient(180deg, #353d49, #2b323d); color: #fff; border: 1px solid #282f3a; width: 100%; min-height: 44px; padding: 11px 14px; font-size: 14px !important; font-weight: 600 !important; border-radius: 8px; box-shadow: 0 1px 2px #101a2b14, inset 0 1px 0 #ffffff14; }
+.studio-add { display: flex; justify-content: center; align-items: center; gap: 9px; background: var(--action-bg); color: #fff; border: 1px solid #282f3a; width: 100%; min-height: 44px; padding: 11px 14px; font-size: 14px !important; font-weight: 600 !important; border-radius: 8px; box-shadow: 0 1px 2px #101a2b14, inset 0 1px 0 #ffffff14; }
 .studio-add:hover { background: #414b5a; }
 .studio-add:active { background: #282f3a; box-shadow: inset 0 1px 2px #101a2b20; }
 .studio-add svg, .studio-new svg, .studio-summary svg { width: 18px; height: 18px; }
@@ -203,13 +203,13 @@
   .studio-save svg { display: none; }
   .studio-rail { flex-basis: 68px; width: 68px; padding: 14px 5px; gap: 7px; }
   .studio-rail-button { min-height: 70px; padding: 10px 2px; gap: 8px; }
-  .studio-rail-button > span { font-size: 11px; }
+  .studio-rail-button > span { font-size: var(--text-label); }
   .studio-rail-button svg { width: 23px; height: 23px; }
   .studio-tools { position: absolute; top: 0; bottom: 0; left: 68px; width: min(292px, calc(100% - 68px)); box-shadow: 12px 0 32px #14223a12; }
   .studio-panel-header { min-height: 60px; padding: 0 20px; }
   .studio-tool-content { padding: 24px 20px; }
   .studio-view-controls { top: 16px; right: 14px; }
-  .studio-view-controls button { height: 34px; font-size: 11px !important; gap: 6px; padding: 0 10px; }
+  .studio-view-controls button { height: 34px; font-size: var(--text-label) !important; gap: 6px; padding: 0 10px; }
   .studio-stage { padding: 58px 16px 22px; }
   .studio-bottom { gap: 14px; padding: 0 12px; }
   .studio-message { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -218,7 +218,7 @@
   .studio-zoom .studio-fit { width: 38px; }
   .studio-summary { font-size: 12px !important; gap: 7px; padding: 8px 4px; }
   .studio-summary > i { width: 12px; height: 12px; }
-  .studio-side-chip { font-size: 11px; }
+  .studio-side-chip { font-size: var(--text-label); }
   .studio-toast { display: block; position: absolute; left: 80px; right: 12px; bottom: 66px; z-index: 30; border: 1px solid #455167; border-radius: 9px; background: #2b3442; color: #f3f6fa; padding: 14px; font-size: 12px; line-height: 1.6; box-shadow: 0 6px 20px #172a4126; pointer-events: none; }
 }
 @media (max-width: 390px) {

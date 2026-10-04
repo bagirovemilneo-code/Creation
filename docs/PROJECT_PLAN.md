@@ -4,7 +4,7 @@ AI-native personalized products platform. Başlanğıc məhsul: t-shirt.
 Model: custom frontend + custom editor + Shopify headless + gələcəkdə lokal çapçı.
 Sonrakı imkanlar: hoodie, creator marketplace, Printify ilə xarici fulfillment.
 
-## Cari mərhələ — 2026-10-04
+## Cari mərhələ — 2026-10-05
 - Next.js App Router + TypeScript + Tailwind + ESLint.
 - Ana səhifə, məhsul seçimi və interaktiv dizayn studiyası.
 - Server-only Shopify Storefront client və məhsul sorğusu.
@@ -19,8 +19,11 @@ Sonrakı imkanlar: hoodie, creator marketplace, Printify ilə xarici fulfillment
 
 ## Dizayn mərhələsi
 İlk axın: ana səhifə → məhsul seçimi → dizayn studiyası.
-Ana səhifə və kataloq: açıq krem, tünd yaşıl, lime aksent, böyük tipoqrafiya.
-Studiya: soyuq boz iş sahəsi, qrafit alət zolağı, ağ idarəetmə panelləri, aydın tipoqrafiya və dolğun düymələr. Dekorativ alt qeydlər çıxarılıb; məhsulun nümunə statusu parametr panelində göstərilir.
+Vahid istiqamət: soyuq ağ və mirvari boz səthlər, qrafit mətn və düymələr, sakit mavi aksent. Ana səhifə, kataloq və studiya eyni qlobal rəng, şrift və idarəetmə tokenlərindən istifadə edir.
+İlk dizayn addımı tamamlandı: qlobal tipoqrafiya və düymə sistemi; qlobal CSS ilə studiya CSS-i arasındakı toqquşmalar çıxarılıb. Mövcud kampaniya şəkilləri və səhifə quruluşu saxlanıb.
+İkinci dizayn addımı tamamlandı: yığcam header, işlək mobil menyu və açıq səthdə başlıq/CTA ilə ayrıca geniş foto sahəsindən ibarət hero. Elan zolağı, təkrarlanan naviqasiya keçidi və dekorativ hero etiketləri çıxarılıb.
+Növbəti addım: ana səhifənin qalan bölmələri — kartlar, şəkillər və bölmələrarası ritm. Sonra kataloq və studiya detalları ayrı-ayrı işlənəcək. İstiqamət və token qaydaları: docs/DESIGN_SYSTEM.md.
+Studiya: soyuq boz iş sahəsi, qrafit alət zolağı, ağ idarəetmə panelləri. Məhsulun nümunə statusu parametr panelində göstərilir.
 T-shirt önizləməsində rəngə uyğun işıq, yumşaq kölgə, yaxa və tikiş detalları var; bunlar vizual effektlərdir, çap ölçülərini və dizayn məlumatını dəyişmir.
 Ana səhifə və kataloq sayt naviqasiyasını saxlayır. /editor birbaşa studiya iş sahəsi kimi açılır; onun idarəetmə paneli saytın başlıq və altlığını əvəz edir.
 İşlək prototip üzərində istifadəçi axını və editor davranışı yoxlanır.

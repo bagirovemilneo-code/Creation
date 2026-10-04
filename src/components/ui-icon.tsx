@@ -14,6 +14,7 @@ const paths = {
   guide: "M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5M8 8h8v8H8Z",
   plus: "M12 5v14M5 12h14",
   minus: "M5 12h14",
+  menu: "M4 8h16M4 16h16",
 };
 
 export function UiIcon({ name }: { name: keyof typeof paths }) {

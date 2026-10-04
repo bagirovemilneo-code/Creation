@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BrandLogo } from "./brand-logo";
 import { UiIcon } from "./ui-icon";
 
@@ -13,8 +13,10 @@ export function SiteShell({
 }>) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const isHome = pathname === "/";
   const isEditor = pathname === "/editor";
 
   useEffect(() => {
@@ -30,13 +32,41 @@ export function SiteShell({
     };
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const handlePointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !headerRef.current?.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    const mobileViewport = window.matchMedia("(max-width: 760px)");
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) setMenuOpen(false);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+    mobileViewport.addEventListener("change", handleViewportChange);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      mobileViewport.removeEventListener("change", handleViewportChange);
+    };
+  }, [menuOpen]);
+
   if (isEditor) {
     return <main className="studio-app-main">{children}</main>;
   }
 
   const headerClassName = [
     "site-header",
-    isHome ? "site-header--home" : "site-header--solid",
     scrolled ? "site-header--scrolled" : "",
   ]
     .filter(Boolean)
@@ -44,20 +74,15 @@ export function SiteShell({
 
   return (
     <>
-      <div className="site-announcement">
-        <p>
-          SƏNİN DİZAYNIN
-          <span aria-hidden="true">·</span>
-          REAL MƏHSULA ÇEVRİLİR
-        </p>
-      </div>
+      <a className="site-skip-link" href="#main-content">Məzmuna keç</a>
 
-      <header className={headerClassName}>
+      <header className={headerClassName} ref={headerRef}>
         <div className="site-header-inner">
           <Link
             className="site-brand"
             href="/"
             aria-label="Creation ana səhifə"
+            onClick={() => setMenuOpen(false)}
           >
             <BrandLogo />
           </Link>
@@ -75,35 +100,53 @@ export function SiteShell({
               Necə işləyir
             </Link>
 
-            <Link
-              href="/editor?product=classic-tshirt"
-              className="site-nav-link"
-            >
-              Özün yarat
-            </Link>
           </nav>
 
           <div className="site-header-actions">
             <Link
-              href="/products"
-              className="site-header-products-mobile"
-              aria-label="Məhsullara bax"
-            >
-              Məhsullar
-            </Link>
-
-            <Link
               className="site-studio-button"
               href="/editor?product=classic-tshirt"
+              aria-label="Dizayn studiyasını aç"
+              onClick={() => setMenuOpen(false)}
             >
-              <span>Studiyanı aç</span>
+              <span className="site-studio-label">Studiyanı aç</span>
+              <span className="site-studio-label-mobile">Yarat</span>
               <UiIcon name="arrow" />
             </Link>
+
+            <button
+              className="site-menu-button"
+              type="button"
+              ref={menuButtonRef}
+              aria-label={menuOpen ? "Menyunu bağla" : "Menyunu aç"}
+              aria-expanded={menuOpen}
+              aria-controls="site-mobile-navigation"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <UiIcon name={menuOpen ? "close" : "menu"} />
+            </button>
           </div>
         </div>
+
+        <nav
+          id="site-mobile-navigation"
+          className="site-mobile-nav"
+          aria-label="Mobil naviqasiya"
+          hidden={!menuOpen}
+        >
+          <Link href="/products" aria-current={pathname === "/products" ? "page" : undefined} onClick={() => setMenuOpen(false)}>
+            Məhsullar <UiIcon name="arrow" />
+          </Link>
+          <Link href="/#how-it-works" onClick={() => setMenuOpen(false)}>
+            Necə işləyir <UiIcon name="arrow" />
+          </Link>
+          <Link href="/editor?product=classic-tshirt" onClick={() => setMenuOpen(false)}>
+            Dizayn studiyası <UiIcon name="arrow" />
+          </Link>
+        </nav>
       </header>
 
-      <main className="app-main">{children}</main>
+      <main className="app-main" id="main-content" tabIndex={-1}>{children}</main>
 
       <footer className="footer">
         <Link
